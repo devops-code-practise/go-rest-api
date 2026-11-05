@@ -10,7 +10,7 @@ import (
 func main() {
 	r := gin.Default()
 	
-	r.GET("/ping", func(c *gin.Context) {
+	r.GET("/get-events", func(c *gin.Context) {
 		events := models.GetAllEvents()
 
 		c.JSON(http.StatusOK, events)
