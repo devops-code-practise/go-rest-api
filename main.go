@@ -5,9 +5,11 @@ import (
 
 	"example.com/rest-api/models"
 	"github.com/gin-gonic/gin"
+	"example.com/rest-api/db"
 )
 
 func main() {
+	db.InitDB()
 	r := gin.Default()
 	
 	r.GET("/get-events", func(c *gin.Context) {
