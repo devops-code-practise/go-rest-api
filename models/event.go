@@ -95,3 +95,14 @@ func Update(event *Event) error {
 
 	return nil
 }
+
+func DeleteEvent(id int64) error {
+	query := `DELETE FROM events WHERE id = ?`
+	_, err := db.DB.Exec(query, id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
