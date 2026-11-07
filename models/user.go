@@ -1,6 +1,8 @@
 package models
 
 import (
+	"errors"
+
 	"example.com/rest-api/db"
 	"example.com/rest-api/utils"
 )
@@ -44,3 +46,20 @@ func (u *User) Save() error {
 
 	return nil
 }	
+
+func ValidateUser(email string) error {
+	var user User
+	query := `SELECT password FROM users WHERE email = ?`
+
+	err := db.DB.QueryRow(query, email).Scan(&user.Password)
+
+	if err != nil {
+		return  errors.New("user not found")
+	}
+
+	if !utils.CheckPasswordHash(user.Password, user.Password) {
+		return  errors.New("invalid password")
+	}
+
+	return  nil
+}

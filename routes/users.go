@@ -20,3 +20,20 @@ func signup(c *gin.Context) {
 	
 	c.JSON(201, gin.H{"message": "User created successfully"})
 }
+
+func login(c *gin.Context) {
+	var user models.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	
+	if err := models.ValidateUser(user.Email); err != nil {
+		c.JSON(401, gin.H{"error": "Invalid email or password"})
+		return
+	}
+
+
+	c.JSON(200, gin.H{"message": "Login successful"})
+}		
