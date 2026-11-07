@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetEvents(c *gin.Context) {
+func getEvents(c *gin.Context) {
 	events, err := models.GetAllEvents()
 
 	if err != nil {
@@ -19,7 +19,7 @@ func GetEvents(c *gin.Context) {
 	c.JSON(http.StatusOK, events)
 }
 
-func GetEvent(c *gin.Context) {
+func getEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 
 	if err != nil {
@@ -37,7 +37,7 @@ func GetEvent(c *gin.Context) {
 	c.JSON(http.StatusOK, event)
 }
 
-func CreateEvent(c *gin.Context) {
+func createEvent(c *gin.Context) {
 	var newEvent models.Event
 	err := c.ShouldBindJSON(&newEvent)
 
@@ -59,7 +59,7 @@ func CreateEvent(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Event created successfully", "event": newEvent})
 }
 
-func UpdateEvent(c *gin.Context) {
+func updateEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 
 	if err != nil {
@@ -89,7 +89,7 @@ func UpdateEvent(c *gin.Context) {
 
 }
 
-func DeleteEvent(c *gin.Context) {
+func deleteEvent(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 
 	if err != nil {

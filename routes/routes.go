@@ -7,9 +7,10 @@ import (
 
 
 func RegisterRoutes(r *gin.Engine) {
-	r.GET("/get-events", GetEvents)
-	r.GET("/events/:id", GetEvent)
-	r.POST("/post", CreateEvent)
-	r.PUT("/events/:id", UpdateEvent)
-	r.DELETE("/events/:id", DeleteEvent)
+	r.GET("/get-events", getEvents)
+	r.GET("/events/:id", getEvent)
+	r.POST("/post", createEvent)
+	r.PUT("/events/:id", updateEvent)
+	r.DELETE("/events/:id", deleteEvent)
+	r.POST("/signup", signup)
 }
