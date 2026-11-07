@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"example.com/rest-api/models"
+	"example.com/rest-api/utils"
 )
 
 func signup(c *gin.Context) {
