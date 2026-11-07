@@ -29,11 +29,17 @@ func login(c *gin.Context) {
 		return
 	}
 	
-	if err := models.ValidateUser(user.Email); err != nil {
+	if err := user.ValidateUser(user.Email); err != nil {
 		c.JSON(401, gin.H{"error": "Invalid email or password"})
 		return
 	}
 
+	token, err := utils.GenerateJWT(user.Email, user.ID)
 
-	c.JSON(200, gin.H{"message": "Login successful"})
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Failed to generate token"})
+		return
+	}
+
+	c.JSON(200, gin.H{"token": token})
 }		

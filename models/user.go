@@ -47,11 +47,11 @@ func (u *User) Save() error {
 	return nil
 }	
 
-func ValidateUser(email string) error {
+func (u *User) ValidateUser(email string) error {
 	var user User
-	query := `SELECT password FROM users WHERE email = ?`
+	query := `SELECT id, password FROM users WHERE email = ?`
 
-	err := db.DB.QueryRow(query, email).Scan(&user.Password)
+	err := db.DB.QueryRow(query, email).Scan(&user.ID, &user.Password)
 
 	if err != nil {
 		return  errors.New("user not found")
