@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"example.com/rest-api/models"
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,24 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, events)
+	})
+
+	r.GET("/events/:id", func(c *gin.Context) {
+		id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+			return
+		}
+		
+		event, err := models.GetEventByID(id)
+
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, event)
 	})
 
 	r.POST("/post", func(c *gin.Context) {
