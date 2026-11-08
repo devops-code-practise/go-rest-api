@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"errors"
 	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -9,44 +11,38 @@ const secretKey = "your_secret_key"
 
 func GenerateJWT(email string, userId int64) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"email": email,
+		"email":  email,
 		"userid": userId,
-		"exp":  time.Now().Add(time.Hour * 2).Unix(),
+		"exp":    time.Now().Add(time.Hour * 2).Unix(),
 	})
 
 	return token.SignedString([]byte(secretKey))
-}	
+}
 
-
-func VerifyToken(tokenString string)  error {
+func VerifyToken(tokenString string) (int64, error) {
 	parsedToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, jwt.ErrSignatureInvalid
+			return nil, errors.New("unexpected signing method")
 		}
 
 		return []byte(secretKey), nil
 	})
 
 	if err != nil {
-		return  err
+		return 0, errors.New("invalid token")
 	}
 
 	if !parsedToken.Valid {
-		return  jwt.ErrSignatureInvalid
+		return 0, errors.New("invalid token")
 	}
 
-	return nil
+	claims, ok := parsedToken.Claims.(jwt.MapClaims)
+	if !ok {
+		return 0, errors.New("invalid token")
+	}
 
-	// claims, err := parsedToken.Claims.(jwt.MapClaims)
+	userIdFloat:= int64(claims["userId"].(float64))
 
-	// if err != nil {
-	// 	return err
-	// }	
-	// email := claims["email"].(string)
-	// userId := int64(claims["userid"].(float64))
 
-	// if email == "" || userId == 0 {
-	// 	return  jwt.ErrSignatureInvalid
-	// }
+	return int64(userIdFloat), nil
 }

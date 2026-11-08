@@ -46,7 +46,7 @@ func createEvent(c *gin.Context) {
 		return
 	}
 
-	err := utils.VerifyToken(token)
+	id, err := utils.VerifyToken(token)
 
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
@@ -61,8 +61,7 @@ func createEvent(c *gin.Context) {
 		return
 	}
 
-	newEvent.ID = 1
-	newEvent.UserID = 1
+	newEvent.UserID = id
 
 	err = newEvent.Save()
 

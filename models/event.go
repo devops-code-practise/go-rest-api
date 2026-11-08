@@ -5,12 +5,12 @@ import (
 )
 
 type Event struct {
-	ID          int64    `json:"id"`
+	ID          int64  `json:"id"`
 	Name        string `json:"name" bind:"required"`
 	Description string `json:"description" bind:"required"`
-	DateTime        string `json:"date" bind:"required"`
+	DateTime    string `json:"date" bind:"required"`
 	Location    string `json:"location" bind:"required"`
-	UserID      int    `json:"user_id"`
+	UserID      int64  `json:"user_id"`
 }
 
 func (e *Event) Save() error {

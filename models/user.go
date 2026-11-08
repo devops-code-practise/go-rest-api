@@ -11,6 +11,7 @@ type User struct {
 	ID       int64  `json:"id"`
 	Email    string `json:"email" bind:"required,email"`
 	Password string `json:"password" bind:"required"`
+	UserID   int64  `json:"user_id"`
 }
 
 func (u *User) Save() error {
