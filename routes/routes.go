@@ -13,10 +13,12 @@ func RegisterRoutes(r *gin.Engine) {
 
 	authenticated := r.Group("/")
 	authenticated.Use(middlewares.Authenticate)
-	
+
 	authenticated.POST("/events", createEvent)
 	authenticated.PUT("/events/:id", updateEvent)
 	authenticated.DELETE("/events/:id", deleteEvent)
+	authenticated.POST("/events/:id/register", registerEvent)
+	authenticated.DELETE("/events/:id/register", unregisterEvent)
 
 
 	r.POST("/signup", signup)

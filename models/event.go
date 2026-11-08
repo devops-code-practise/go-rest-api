@@ -106,3 +106,27 @@ func DeleteEvent(id int64) error {
 
 	return nil
 }
+
+func (e *Event) RegisterUserToEvent(userId int64) error {
+	query := `INSERT INTO registrations (user_id, event_id) VALUES (?, ?)`
+
+
+	_, err := db.DB.Exec(query, userId, e.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}			
+
+func (e *Event) UnregisterUserFromEvent(userId int64) error {
+	query := `DELETE FROM registrations WHERE user_id = ? AND event_id = ?`
+	_, err := db.DB.Exec(query, userId, e.ID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}	
